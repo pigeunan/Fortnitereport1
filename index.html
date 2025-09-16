@@ -51,14 +51,13 @@
   <div class="container">
     <div class="card">
       <h1>클릭 챌린지 — 20초 안에 최대한 많이 누르세요!</h1>
-      <p class="lead">목표를 달성하면 '특별한 보상'이 주어집니다. 😉</p>
+      <p class="lead">손가락 스피드 테스트 ㄱㄱ</p>
       <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
         <div style="flex:1">
           <ul style="margin:8px 0 0 18px;color:var(--muted)">
             <li>제한 시간: <strong>20초</strong></li>
             <li>목표 클릭 수: <strong id="targetLabel">20</strong> 회</li>
-            <li>목표를 먼저 달성하면 즉시 영상이 나오고 소리가 켜집니다!</li>
-            <li>못 채우면 20초 끝 + 4초 뒤 영상이 음소거로 뜹니다.</li>
+            <li>누가 더 빨리 연타하나 겨뤄보세요</li>
           </ul>
         </div>
 
@@ -86,7 +85,6 @@
         <button class="btn primary" id="forceUnmute">소리 켜기 🔊</button>
         <button class="btn ghost" id="closeOverlay">닫기 ✕</button>
       </div>
-      <div class="notice" id="overlayNotice" style="display:none">⚠️ 소리가 크게 나옵니다.</div>
     </div>
   </div>
 
@@ -103,7 +101,6 @@
   const overlay = document.getElementById('overlay');
   const vid = document.getElementById('vid');
   const overlayControls = document.getElementById('overlayControls');
-  const overlayNotice = document.getElementById('overlayNotice');
   const forceUnmute = document.getElementById('forceUnmute');
   const closeOverlay = document.getElementById('closeOverlay');
 
@@ -165,10 +162,8 @@
         await vid.play();
       }
       overlayControls.style.display = 'flex';
-      overlayNotice.style.display = 'block';
     } catch(err) {
       overlayControls.style.display = 'flex';
-      overlayNotice.style.display = 'block';
     }
   }
 
@@ -176,7 +171,6 @@
     vid.muted = false;
     vid.volume = 1.0;
     await vid.play();
-    overlayNotice.textContent = '소리 켜짐! (ESC 또는 닫기로 종료)';
   });
 
   closeOverlay.addEventListener('click', ()=> {
