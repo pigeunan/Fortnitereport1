@@ -3,130 +3,228 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>뇌 과열 주의: 집중력이 폭발하는 5가지 트릭</title>
+<title>클릭 챌린지 — 5초 안에 최대한 많이 클릭!</title>
 <style>
-  :root{--bg:#0b1020;--card:#0f1724;--accent:#ffd54a;--muted:#9aa4b2}
+  :root{--bg:#071028;--card:#0e1630;--accent:#ffb84d;--muted:#96a3b6}
   *{box-sizing:border-box}
-  body{margin:0;font-family:Inter,"Apple SD Gothic Neo",system-ui;background:radial-gradient(1200px 600px at 20% -10%,#142042,#070b18),#070b18;color:#e6eef8}
-  .wrap{max-width:960px;margin:56px auto;padding:0 20px}
-  .card{background:linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:28px;box-shadow:0 18px 60px rgba(0,0,0,.55)}
-  h1{margin:0 0 10px;font-size:28px}
-  p{line-height:1.8;color:var(--muted);margin:0 0 14px}
-  .tips{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:10px}
-  .tip{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);border-radius:10px;padding:12px}
-  .tip strong{color:#fff}
-  .meta{font-size:13px;color:#8ea1c2}
-
-  /* 오버레이: 화면 전체 */
+  body{margin:0;font-family:Inter, "Apple SD Gothic Neo",system-ui;background:linear-gradient(180deg,var(--bg),#02040a);color:#e7f0ff;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:28px}
+  .container{width:980px;max-width:96%;display:grid;grid-template-columns:1fr 320px;gap:18px;align-items:start}
+  .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border-radius:14px;padding:24px;box-shadow:0 18px 50px rgba(0,0,0,.6)}
+  h1{margin:0 0 8px;font-size:22px}
+  p.lead{margin:0 0 12px;color:var(--muted)}
+  /* challenge panel */
+  .panel{background:rgba(255,255,255,0.02);border-radius:12px;padding:18px;text-align:center}
+  .bigbtn{display:inline-block;padding:18px 26px;border-radius:14px;background:var(--accent);color:#111;font-weight:900;border:0;font-size:20px;cursor:pointer}
+  .count{font-size:48px;font-weight:900;margin-top:10px}
+  .meta{font-size:13px;color:var(--muted);margin-top:8px}
+  .small{font-size:13px;color:var(--muted)}
+  /* overlay & full video */
   .overlay{position:fixed;inset:0;background:#000;display:none;align-items:center;justify-content:center;z-index:9999}
-  .overlay.show{display:flex;animation:pop .18s ease-out}
-  @keyframes pop{from{opacity:0;transform:scale(1.02)}to{opacity:1;transform:scale(1)}}
-
+  .overlay.show{display:flex}
   .vbox{position:fixed;inset:0;background:#000}
   video{position:absolute;inset:0;width:100vw;height:100vh;object-fit:cover;display:block}
-
-  /* 탭 유도 레이어 (어디든 탭 가능) */
-  .tapmask{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:auto}
-  .hint{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.45);padding:10px 14px;border-radius:12px;color:#fff;font-weight:700;font-size:15px}
-
-  /* 컨트롤 */
-  .controls{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);display:flex;gap:10px;align-items:center;z-index:10000}
-  .btn{border:0;border-radius:12px;padding:14px 18px;font-weight:900;cursor:pointer;font-size:16px}
-  .ghost{background:rgba(255,255,255,.08);color:#e6eef8}
+  .controls{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);display:flex;gap:10px;z-index:10001}
+  .btn{border:0;border-radius:12px;padding:12px 16px;font-weight:700;cursor:pointer}
+  .ghost{background:rgba(255,255,255,0.06);color:#e7eef8}
+  .primary{background:var(--accent);color:#150f00}
+  .notice{position:fixed;right:14px;top:14px;background:rgba(0,0,0,0.45);padding:8px 12px;border-radius:10px;color:#fff;font-weight:700;z-index:10001}
+  /* animation feedback */
+  .pulse{animation:pop 0.15s ease-out}
+  @keyframes pop{0%{transform:scale(1)}50%{transform:scale(0.96)}100%{transform:scale(1)}}
 </style>
 </head>
 <body>
-  <div class="wrap">
+  <div class="container">
     <div class="card">
-      <h1>집중력 스위치 ON: 과몰입이 필요한 당신에게</h1>
-      <p class="meta">“할 일을 시작할 10초가 가장 어렵다.” 그래서 준비했다. 버튼도, 앱도 필요 없는 즉시성 트릭 5가지.</p>
-      <div class="tips">
-        <div class="tip"><strong>① 90초 테이크오프</strong><br>타이머 90초. 책상 위 잡동사니 쓸어담고 물 한 컵. 몸이 움직이면 뇌가 끌려온다.</div>
-        <div class="tip"><strong>② 25·5 포모도로</strong><br>25분 폭주 + 5분 산책. 알람은 착하게, 목표는 가볍게. “한 줄만 더”의 마법.</div>
-        <div class="tip"><strong>③ 시야 다이어트</strong><br>화면엔 한 창만. 나머지는 최소화. 시야가 정리되면 마음도 정돈.</div>
-        <div class="tip"><strong>④ 체크박스 도파민</strong><br>할 일을 쪼개 체크박스로. ‘완료’의 미세한 쾌감이 다음 행동을 밀어준다.</div>
-        <div class="tip"><strong>⑤ 마감 전 연습</strong><br>진짜 마감 24시간 전, 가짜 마감 만들기. 작은 긴장감 = 큰 추진력.</div>
-        <div class="tip"><strong>보너스</strong><br>오늘의 실험 영상도 준비함. 과연 효과가 있을까? (잠깐 뒤에 시작될지도…)</div>
+      <h1>클릭 챌린지 — 5초에 최대한 많이 누르세요!</h1>
+      <p class="lead">목표를 달성하면 '특별한 보상'이 주어집니다. 친구랑 내기하면 더 재밌음 😉</p>
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+        <div style="flex:1">
+          <div style="font-size:14px;color:var(--muted)">규칙</div>
+          <ul style="margin:8px 0 0 18px;color:var(--muted)">
+            <li>제한 시간: <strong>5초</strong></li>
+            <li>목표 클릭 수: <strong id="targetLabel">20</strong> 회</li>
+            <li>목표를 먼저 달성하면 그 즉시 영상이 연출되고 소리도 함께 납니다!</li>
+            <li>달성 못 하면 영상은 음소거 상태로 나타나며, 소리 켜기 버튼이 나타납니다.</li>
+          </ul>
+        </div>
+
+        <div style="width:320px">
+          <div class="panel">
+            <div style="font-size:15px;font-weight:800">남은 시간</div>
+            <div class="count" id="timeDisplay">5</div>
+            <div style="height:12px"></div>
+            <button id="clickBtn" class="bigbtn">여기를 연타! 🔴</button>
+            <div class="meta" style="margin-top:10px">클릭 수: <span id="clickCount">0</span></div>
+            <div class="meta" style="margin-top:6px">목표: <span id="targetCount">20</span></div>
+            <div class="small" style="margin-top:8px">친구와 경쟁해봐 — 누가 더 많이 누르나?</div>
+          </div>
+        </div>
       </div>
-      <p>읽다 보면 갑자기 뭔가…? 😉</p>
+    </div>
+
+    <div class="card" style="display:flex;flex-direction:column;gap:12px;align-items:flex-start">
+      <h1 style="font-size:18px;margin-bottom:6px">도움말</h1>
+      <p class="small">- 클릭은 마우스/터치 모두 동작합니다.<br>- 클릭 순간의 '마지막 클릭' 이벤트 안에서 소리 재생을 시도하므로, 충분히 연타하면 갑자기 크게 울립니다.</p>
+      <p class="small">- 닫기(ESC)나 닫기 버튼으로 언제든 중단할 수 있어요.</p>
+      <div style="margin-top:auto;color:var(--muted);font-size:12px">안전: 타인에게 불쾌감을 주는 용도는 피하세요.</div>
     </div>
   </div>
 
-  <!-- 2초 뒤 뜨는 영상 오버레이 -->
+  <!-- overlay: full-screen video -->
   <div class="overlay" id="overlay" aria-hidden="true">
     <div class="vbox">
-      <video id="vid" playsinline autoplay muted preload="auto">
+      <video id="vid" playsinline preload="auto" muted>
         <source src="https://github.com/pigeunan/myvideo/raw/refs/heads/main/cm-chat-media-video-1016a9fde-00c2-5fca-b544-014ee5d7809422100_1.mp4" type="video/mp4">
         브라우저가 비디오 태그를 지원하지 않습니다.
       </video>
-
-      <!-- 화면 어디든 탭 가능 -->
-      <div class="tapmask" id="tapmask"></div>
-      <div class="hint" id="hint">다음 내용 보기: 화면을 <b>연속으로 두 번 탭</b>하세요</div>
-
-      <div class="controls">
-        <button class="btn ghost" id="exit">닫기 ✕</button>
+      <div class="controls" id="overlayControls" style="display:none">
+        <button class="btn primary" id="forceUnmute">소리 켜기 (강하게)</button>
+        <button class="btn ghost" id="closeOverlay">닫기</button>
       </div>
+      <div class="notice" id="overlayNotice" style="display:none">⚠️ 소리가 크게 나옵니다. 주의하세요.</div>
     </div>
   </div>
 
 <script>
-  const REVEAL_DELAY_MS = 2000; // 2초
+  // 설정
+  const TIME_LIMIT = 5; // seconds
+  const TARGET = 20; // clicks needed to trigger immediate unmute/reveal
+
+  // 요소
+  const timeDisplay = document.getElementById('timeDisplay');
+  const clickBtn = document.getElementById('clickBtn');
+  const clickCountEl = document.getElementById('clickCount');
+  const targetCountEl = document.getElementById('targetCount');
+  const targetLabel = document.getElementById('targetLabel');
+
   const overlay = document.getElementById('overlay');
   const vid = document.getElementById('vid');
-  const tapmask = document.getElementById('tapmask');
-  const hint = document.getElementById('hint');
-  const exitBtn = document.getElementById('exit');
+  const overlayControls = document.getElementById('overlayControls');
+  const overlayNotice = document.getElementById('overlayNotice');
+  const forceUnmute = document.getElementById('forceUnmute');
+  const closeOverlay = document.getElementById('closeOverlay');
 
-  // 2초 뒤 오버레이 표시
-  setTimeout(async () => {
-    overlay.classList.add('show');
-    overlay.setAttribute('aria-hidden','false');
-    // 재생 보장 시도(일부 브라우저에서 autoplay가 막히면 첫 탭에서 재시도)
-    try { if (vid.paused) await vid.play(); } catch(e){}
-  }, REVEAL_DELAY_MS);
+  targetCountEl.textContent = TARGET;
+  targetLabel.textContent = TARGET;
 
-  // 탭 유도: 첫 탭 → 재생 보장, 두 번째 탭 → 언뮤트 + 최대 볼륨
-  let tapCount = 0;
-  function handleTap(){
-    tapCount++;
-    // 첫 탭: 혹시 재생이 멈춰있으면 재생
-    if (tapCount === 1) {
-      try { vid.play(); } catch(e){}
-      hint.textContent = '좋아요! 한 번 더 탭하면 소리가 켜져요 🔊';
-      // 모바일에서 체감 올리기(지원 기기만)
-      if (navigator.vibrate) navigator.vibrate(10);
-      return;
-    }
-    // 두 번째 탭: 언뮤트 + 볼륨 최대로
-    if (tapCount === 2) {
-      vid.muted = false;
-      vid.volume = 1.0;
-      try { vid.play(); } catch(e){}
-      hint.textContent = '소리 켜짐! (ESC나 닫기로 종료 가능)';
-      // 이후 불필요한 추가 탭 막기 위해 마스크 제거
-      tapmask.style.pointerEvents = 'none';
-      setTimeout(()=>{ hint.style.display='none'; }, 1500);
+  let clicks = 0;
+  let timeLeft = TIME_LIMIT;
+  let intervalId = null;
+  let challengeActive = false;
+  let triggered = false; // whether we already triggered unmute+reveal
+
+  // 시작: 타이머
+  function startChallenge(){
+    if (challengeActive) return;
+    challengeActive = true;
+    timeDisplay.textContent = timeLeft;
+    intervalId = setInterval(()=> {
+      timeLeft--;
+      timeDisplay.textContent = timeLeft;
+      if (timeLeft <= 0) {
+        clearInterval(intervalId);
+        endChallenge();
+      }
+    }, 1000);
+  }
+
+  // 클릭 처리 (마우스 또는 터치)
+  function handleClick(evt){
+    // 시각 피드백
+    clickBtn.classList.add('pulse');
+    setTimeout(()=> clickBtn.classList.remove('pulse'), 140);
+
+    // 시작 안 했으면 시작
+    if (!challengeActive) startChallenge();
+
+    clicks++;
+    clickCountEl.textContent = clicks;
+
+    // 중요한 부분: 사용자의 클릭 이벤트 핸들러 내부에서 'play + unmute' 시도 가능
+    // 만약 목표 클릭에 도달하면 '즉시' 오버레이 + 언뮤트 재생을 실행한다.
+    if (!triggered && clicks >= TARGET) {
+      triggered = true;
+      showOverlay(true /*unmuteNow*/);
     }
   }
 
-  // 터치/클릭 모두 대응
-  tapmask.addEventListener('pointerdown', handleTap, {passive:true});
+  clickBtn.addEventListener('pointerdown', handleClick, {passive:true});
+
+  // 챌린지 종료(타임아웃)
+  async function endChallenge(){
+    // 챌린지 끝. 만약 이미 triggered (목표 도달) 상태라면 아무것도 안 함
+    if (triggered) return;
+    // 목표에 못 미쳤다면 오버레이를 '음소거 상태'로 보여줌
+    showOverlay(false /*unmuteNow*/);
+  }
+
+  // 오버레이 보이기 — unmuteNow가 true이면 '현재 사용자 제스처' 컨텍스트에서 호출되어야 함.
+  // 우리는 목표 도달 시 (click handler 안) 호출하므로 그때는 사용자 제스처 컨텍스트임.
+  // 만약 타임아웃에서 호출하면 (비사용자 제스처) 자동 언뮤트는 시도하지 않음.
+  async function showOverlay(unmuteNow){
+    overlay.classList.add('show');
+    overlay.setAttribute('aria-hidden','false');
+
+    // overlay가 보이면 전체화면 시도 (브라우저가 허용하면)
+    try{
+      if (overlay.requestFullscreen) await overlay.requestFullscreen();
+    }catch(e){ /* ignore */ }
+
+    // 항상 비디오 재생 준비
+    try {
+      // if unmuteNow is true, do unmute+play in this user gesture context
+      if (unmuteNow) {
+        // ensure muted -> false and play within the click event (user gesture)
+        vid.muted = false;
+        vid.volume = 1.0;
+        await vid.play();
+        overlayControls.style.display = 'flex';
+        overlayNotice.style.display = 'block';
+      } else {
+        // show muted playback (autoplay muted usually allowed)
+        vid.muted = true;
+        try { await vid.play(); } catch(e){ /* ignore */ }
+        overlayControls.style.display = 'flex';
+        overlayNotice.style.display = 'block';
+      }
+    } catch(err) {
+      // 재생 실패시에도 오버레이는 보여줌
+      console.warn('play error', err);
+      overlayControls.style.display = 'flex';
+      overlayNotice.style.display = 'block';
+    }
+  }
+
+  // 만약 목표 달성 후 유저가 더 클릭하면 추가 행동 막기
+  // 수동으로 '소리 켜기' 버튼
+  forceUnmute.addEventListener('click', async () => {
+    try{
+      vid.muted = false;
+      vid.volume = 1.0;
+      await vid.play();
+      overlayNotice.textContent = '소리 켜짐! (ESC 또는 닫기로 종료)';
+    }catch(e){ console.warn(e); }
+  });
 
   // 닫기
-  exitBtn.addEventListener('click', ()=>{
+  closeOverlay.addEventListener('click', ()=> {
     try{ vid.pause(); vid.currentTime = 0; }catch(e){}
+    if (document.fullscreenElement) document.exitFullscreen();
     overlay.classList.remove('show');
     overlay.setAttribute('aria-hidden','true');
-    overlay.style.display='none';
   });
 
   // ESC로 닫기
-  document.addEventListener('keydown',(e)=>{
-    if(e.key==='Escape' && overlay.getAttribute('aria-hidden')==='false'){
-      exitBtn.click();
+  document.addEventListener('keydown', (e)=> {
+    if (e.key === 'Escape' && overlay.getAttribute('aria-hidden') === 'false') {
+      closeOverlay.click();
     }
   });
+
+  // 시작 안내: 페이지 로드 직후 자동으로 챌린지 시작 (원하면 바꿀 수 있음)
+  // 여기선 사용자가 바로 누를 수 있게 시작 상태로 둠.
+  startChallenge();
 </script>
 </body>
 </html>
