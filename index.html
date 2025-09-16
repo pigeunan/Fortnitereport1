@@ -7,28 +7,42 @@
 <style>
   :root{--bg:#071028;--card:#0e1630;--accent:#ffb84d;--muted:#96a3b6}
   *{box-sizing:border-box}
-  body{margin:0;font-family:Inter, "Apple SD Gothic Neo",system-ui;background:linear-gradient(180deg,var(--bg),#02040a);color:#e7f0ff;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:28px}
-  .container{width:980px;max-width:96%;display:grid;grid-template-columns:1fr 320px;gap:18px;align-items:start}
-  .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border-radius:14px;padding:24px;box-shadow:0 18px 50px rgba(0,0,0,.6)}
+  body{margin:0;font-family:Inter,"Apple SD Gothic Neo",system-ui;
+       background:linear-gradient(180deg,var(--bg),#02040a);
+       color:#e7f0ff;min-height:100vh;display:flex;
+       align-items:center;justify-content:center;padding:28px}
+  .container{width:980px;max-width:96%;
+             display:grid;grid-template-columns:1fr 320px;
+             gap:18px;align-items:start}
+  .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),
+                                   rgba(255,255,255,0.01));
+        border-radius:14px;padding:24px;
+        box-shadow:0 18px 50px rgba(0,0,0,.6)}
   h1{margin:0 0 8px;font-size:22px}
   p.lead{margin:0 0 12px;color:var(--muted)}
-  /* challenge panel */
-  .panel{background:rgba(255,255,255,0.02);border-radius:12px;padding:18px;text-align:center}
-  .bigbtn{display:inline-block;padding:18px 26px;border-radius:14px;background:var(--accent);color:#111;font-weight:900;border:0;font-size:20px;cursor:pointer}
+  .panel{background:rgba(255,255,255,0.02);
+         border-radius:12px;padding:18px;text-align:center}
+  .bigbtn{display:inline-block;padding:18px 26px;border-radius:14px;
+          background:var(--accent);color:#111;font-weight:900;
+          border:0;font-size:20px;cursor:pointer}
   .count{font-size:48px;font-weight:900;margin-top:10px}
   .meta{font-size:13px;color:var(--muted);margin-top:8px}
   .small{font-size:13px;color:var(--muted)}
-  /* overlay & full video */
-  .overlay{position:fixed;inset:0;background:#000;display:none;align-items:center;justify-content:center;z-index:9999}
+  .overlay{position:fixed;inset:0;background:#000;display:none;
+           align-items:center;justify-content:center;z-index:9999}
   .overlay.show{display:flex}
   .vbox{position:fixed;inset:0;background:#000}
-  video{position:absolute;inset:0;width:100vw;height:100vh;object-fit:cover;display:block}
-  .controls{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);display:flex;gap:10px;z-index:10001}
-  .btn{border:0;border-radius:12px;padding:12px 16px;font-weight:700;cursor:pointer}
+  video{position:absolute;inset:0;width:100vw;height:100vh;
+        object-fit:cover;display:block}
+  .controls{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);
+            display:flex;gap:10px;z-index:10001}
+  .btn{border:0;border-radius:12px;padding:12px 16px;
+       font-weight:700;cursor:pointer}
   .ghost{background:rgba(255,255,255,0.06);color:#e7eef8}
   .primary{background:var(--accent);color:#150f00}
-  .notice{position:fixed;right:14px;top:14px;background:rgba(0,0,0,0.45);padding:8px 12px;border-radius:10px;color:#fff;font-weight:700;z-index:10001}
-  /* animation feedback */
+  .notice{position:fixed;right:14px;top:14px;
+          background:rgba(0,0,0,0.45);padding:8px 12px;
+          border-radius:10px;color:#fff;font-weight:700;z-index:10001}
   .pulse{animation:pop 0.15s ease-out}
   @keyframes pop{0%{transform:scale(1)}50%{transform:scale(0.96)}100%{transform:scale(1)}}
 </style>
@@ -37,15 +51,14 @@
   <div class="container">
     <div class="card">
       <h1>클릭 챌린지 — 20초 안에 최대한 많이 누르세요!</h1>
-      <p class="lead">목표를 달성하면 '특별한 보상'이 주어집니다. 친구랑 내기하면 더 재밌음 😉</p>
+      <p class="lead">목표를 달성하면 '특별한 보상'이 주어집니다. 😉</p>
       <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
         <div style="flex:1">
-          <div style="font-size:14px;color:var(--muted)">규칙</div>
           <ul style="margin:8px 0 0 18px;color:var(--muted)">
             <li>제한 시간: <strong>20초</strong></li>
             <li>목표 클릭 수: <strong id="targetLabel">20</strong> 회</li>
-            <li>목표를 먼저 달성하면 즉시 영상이 등장하고 소리가 울립니다!</li>
-            <li>못 채우면 영상은 음소거 상태로만 나타납니다.</li>
+            <li>목표를 먼저 달성하면 즉시 영상이 나오고 소리가 켜집니다!</li>
+            <li>못 채우면 20초 끝 + 4초 뒤 영상이 음소거로 뜹니다.</li>
           </ul>
         </div>
 
@@ -55,22 +68,15 @@
             <div class="count" id="timeDisplay">20</div>
             <div style="height:12px"></div>
             <button id="clickBtn" class="bigbtn">여기를 연타! 🔴</button>
-            <div class="meta" style="margin-top:10px">클릭 수: <span id="clickCount">0</span></div>
-            <div class="meta" style="margin-top:6px">목표: <span id="targetCount">20</span></div>
-            <div class="small" style="margin-top:8px">친구와 경쟁해봐 — 누가 더 많이 누르나?</div>
+            <div class="meta">클릭 수: <span id="clickCount">0</span></div>
+            <div class="meta">목표: <span id="targetCount">20</span></div>
           </div>
         </div>
       </div>
     </div>
-
-    <div class="card" style="display:flex;flex-direction:column;gap:12px;align-items:flex-start">
-      <h1 style="font-size:18px;margin-bottom:6px">도움말</h1>
-      <p class="small">- 클릭은 마우스/터치 모두 동작합니다.<br>- 클릭 순간에 소리 재생을 시도하므로, 충분히 연타하면 갑자기 크게 울립니다.</p>
-      <p class="small">- 닫기(ESC)나 닫기 버튼으로 언제든 종료할 수 있어요.</p>
-    </div>
   </div>
 
-  <!-- overlay -->
+  <!-- 오버레이 -->
   <div class="overlay" id="overlay" aria-hidden="true">
     <div class="vbox">
       <video id="vid" playsinline preload="auto" muted>
@@ -80,12 +86,12 @@
         <button class="btn primary" id="forceUnmute">소리 켜기 🔊</button>
         <button class="btn ghost" id="closeOverlay">닫기 ✕</button>
       </div>
-      <div class="notice" id="overlayNotice" style="display:none">⚠️ 소리가 크게 나옵니다. 주의하세요.</div>
+      <div class="notice" id="overlayNotice" style="display:none">⚠️ 소리가 크게 나옵니다.</div>
     </div>
   </div>
 
 <script>
-  const TIME_LIMIT = 20; // 20초로 변경
+  const TIME_LIMIT = 20; // 20초
   const TARGET = 20;
 
   const timeDisplay = document.getElementById('timeDisplay');
@@ -137,17 +143,18 @@
   }
   clickBtn.addEventListener('pointerdown', handleClick, {passive:true});
 
+  // 끝난 뒤 4초 지연
   async function endChallenge(){
     if (triggered) return;
-    showOverlay(false);
+    setTimeout(() => {
+      showOverlay(false);
+    }, 4000); // 4초 뒤
   }
 
   async function showOverlay(unmuteNow){
     overlay.classList.add('show');
     overlay.setAttribute('aria-hidden','false');
-    try{
-      if (overlay.requestFullscreen) await overlay.requestFullscreen();
-    }catch(e){}
+    try{ if (overlay.requestFullscreen) await overlay.requestFullscreen(); }catch(e){}
     try {
       if (unmuteNow) {
         vid.muted = false;
@@ -155,7 +162,7 @@
         await vid.play();
       } else {
         vid.muted = true;
-        try { await vid.play(); } catch(e){}
+        await vid.play();
       }
       overlayControls.style.display = 'flex';
       overlayNotice.style.display = 'block';
@@ -185,7 +192,7 @@
     }
   });
 
-  // 페이지 들어가면 바로 카운트다운 시작
+  // 자동으로 챌린지 시작
   startChallenge();
 </script>
 </body>
