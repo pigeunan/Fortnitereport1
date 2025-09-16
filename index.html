@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>클릭 챌린지 — 5초 안에 최대한 많이 클릭!</title>
+<title>클릭 챌린지 — 20초 안에 최대한 많이 클릭!</title>
 <style>
   :root{--bg:#071028;--card:#0e1630;--accent:#ffb84d;--muted:#96a3b6}
   *{box-sizing:border-box}
@@ -36,23 +36,23 @@
 <body>
   <div class="container">
     <div class="card">
-      <h1>클릭 챌린지 — 5초에 최대한 많이 누르세요!</h1>
+      <h1>클릭 챌린지 — 20초 안에 최대한 많이 누르세요!</h1>
       <p class="lead">목표를 달성하면 '특별한 보상'이 주어집니다. 친구랑 내기하면 더 재밌음 😉</p>
       <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
         <div style="flex:1">
           <div style="font-size:14px;color:var(--muted)">규칙</div>
           <ul style="margin:8px 0 0 18px;color:var(--muted)">
-            <li>제한 시간: <strong>5초</strong></li>
+            <li>제한 시간: <strong>20초</strong></li>
             <li>목표 클릭 수: <strong id="targetLabel">20</strong> 회</li>
-            <li>목표를 먼저 달성하면 그 즉시 영상이 연출되고 소리도 함께 납니다!</li>
-            <li>달성 못 하면 영상은 음소거 상태로 나타나며, 소리 켜기 버튼이 나타납니다.</li>
+            <li>목표를 먼저 달성하면 즉시 영상이 등장하고 소리가 울립니다!</li>
+            <li>못 채우면 영상은 음소거 상태로만 나타납니다.</li>
           </ul>
         </div>
 
         <div style="width:320px">
           <div class="panel">
             <div style="font-size:15px;font-weight:800">남은 시간</div>
-            <div class="count" id="timeDisplay">5</div>
+            <div class="count" id="timeDisplay">20</div>
             <div style="height:12px"></div>
             <button id="clickBtn" class="bigbtn">여기를 연타! 🔴</button>
             <div class="meta" style="margin-top:10px">클릭 수: <span id="clickCount">0</span></div>
@@ -65,33 +65,29 @@
 
     <div class="card" style="display:flex;flex-direction:column;gap:12px;align-items:flex-start">
       <h1 style="font-size:18px;margin-bottom:6px">도움말</h1>
-      <p class="small">- 클릭은 마우스/터치 모두 동작합니다.<br>- 클릭 순간의 '마지막 클릭' 이벤트 안에서 소리 재생을 시도하므로, 충분히 연타하면 갑자기 크게 울립니다.</p>
-      <p class="small">- 닫기(ESC)나 닫기 버튼으로 언제든 중단할 수 있어요.</p>
-      <div style="margin-top:auto;color:var(--muted);font-size:12px">안전: 타인에게 불쾌감을 주는 용도는 피하세요.</div>
+      <p class="small">- 클릭은 마우스/터치 모두 동작합니다.<br>- 클릭 순간에 소리 재생을 시도하므로, 충분히 연타하면 갑자기 크게 울립니다.</p>
+      <p class="small">- 닫기(ESC)나 닫기 버튼으로 언제든 종료할 수 있어요.</p>
     </div>
   </div>
 
-  <!-- overlay: full-screen video -->
+  <!-- overlay -->
   <div class="overlay" id="overlay" aria-hidden="true">
     <div class="vbox">
       <video id="vid" playsinline preload="auto" muted>
         <source src="https://github.com/pigeunan/myvideo/raw/refs/heads/main/cm-chat-media-video-1016a9fde-00c2-5fca-b544-014ee5d7809422100_1.mp4" type="video/mp4">
-        브라우저가 비디오 태그를 지원하지 않습니다.
       </video>
       <div class="controls" id="overlayControls" style="display:none">
-        <button class="btn primary" id="forceUnmute">소리 켜기 (강하게)</button>
-        <button class="btn ghost" id="closeOverlay">닫기</button>
+        <button class="btn primary" id="forceUnmute">소리 켜기 🔊</button>
+        <button class="btn ghost" id="closeOverlay">닫기 ✕</button>
       </div>
       <div class="notice" id="overlayNotice" style="display:none">⚠️ 소리가 크게 나옵니다. 주의하세요.</div>
     </div>
   </div>
 
 <script>
-  // 설정
-  const TIME_LIMIT = 5; // seconds
-  const TARGET = 20; // clicks needed to trigger immediate unmute/reveal
+  const TIME_LIMIT = 20; // 20초로 변경
+  const TARGET = 20;
 
-  // 요소
   const timeDisplay = document.getElementById('timeDisplay');
   const clickBtn = document.getElementById('clickBtn');
   const clickCountEl = document.getElementById('clickCount');
@@ -112,9 +108,8 @@
   let timeLeft = TIME_LIMIT;
   let intervalId = null;
   let challengeActive = false;
-  let triggered = false; // whether we already triggered unmute+reveal
+  let triggered = false;
 
-  // 시작: 타이머
   function startChallenge(){
     if (challengeActive) return;
     challengeActive = true;
@@ -129,85 +124,54 @@
     }, 1000);
   }
 
-  // 클릭 처리 (마우스 또는 터치)
-  function handleClick(evt){
-    // 시각 피드백
+  function handleClick(){
     clickBtn.classList.add('pulse');
     setTimeout(()=> clickBtn.classList.remove('pulse'), 140);
-
-    // 시작 안 했으면 시작
     if (!challengeActive) startChallenge();
-
     clicks++;
     clickCountEl.textContent = clicks;
-
-    // 중요한 부분: 사용자의 클릭 이벤트 핸들러 내부에서 'play + unmute' 시도 가능
-    // 만약 목표 클릭에 도달하면 '즉시' 오버레이 + 언뮤트 재생을 실행한다.
     if (!triggered && clicks >= TARGET) {
       triggered = true;
-      showOverlay(true /*unmuteNow*/);
+      showOverlay(true);
     }
   }
-
   clickBtn.addEventListener('pointerdown', handleClick, {passive:true});
 
-  // 챌린지 종료(타임아웃)
   async function endChallenge(){
-    // 챌린지 끝. 만약 이미 triggered (목표 도달) 상태라면 아무것도 안 함
     if (triggered) return;
-    // 목표에 못 미쳤다면 오버레이를 '음소거 상태'로 보여줌
-    showOverlay(false /*unmuteNow*/);
+    showOverlay(false);
   }
 
-  // 오버레이 보이기 — unmuteNow가 true이면 '현재 사용자 제스처' 컨텍스트에서 호출되어야 함.
-  // 우리는 목표 도달 시 (click handler 안) 호출하므로 그때는 사용자 제스처 컨텍스트임.
-  // 만약 타임아웃에서 호출하면 (비사용자 제스처) 자동 언뮤트는 시도하지 않음.
   async function showOverlay(unmuteNow){
     overlay.classList.add('show');
     overlay.setAttribute('aria-hidden','false');
-
-    // overlay가 보이면 전체화면 시도 (브라우저가 허용하면)
     try{
       if (overlay.requestFullscreen) await overlay.requestFullscreen();
-    }catch(e){ /* ignore */ }
-
-    // 항상 비디오 재생 준비
+    }catch(e){}
     try {
-      // if unmuteNow is true, do unmute+play in this user gesture context
       if (unmuteNow) {
-        // ensure muted -> false and play within the click event (user gesture)
         vid.muted = false;
         vid.volume = 1.0;
         await vid.play();
-        overlayControls.style.display = 'flex';
-        overlayNotice.style.display = 'block';
       } else {
-        // show muted playback (autoplay muted usually allowed)
         vid.muted = true;
-        try { await vid.play(); } catch(e){ /* ignore */ }
-        overlayControls.style.display = 'flex';
-        overlayNotice.style.display = 'block';
+        try { await vid.play(); } catch(e){}
       }
+      overlayControls.style.display = 'flex';
+      overlayNotice.style.display = 'block';
     } catch(err) {
-      // 재생 실패시에도 오버레이는 보여줌
-      console.warn('play error', err);
       overlayControls.style.display = 'flex';
       overlayNotice.style.display = 'block';
     }
   }
 
-  // 만약 목표 달성 후 유저가 더 클릭하면 추가 행동 막기
-  // 수동으로 '소리 켜기' 버튼
   forceUnmute.addEventListener('click', async () => {
-    try{
-      vid.muted = false;
-      vid.volume = 1.0;
-      await vid.play();
-      overlayNotice.textContent = '소리 켜짐! (ESC 또는 닫기로 종료)';
-    }catch(e){ console.warn(e); }
+    vid.muted = false;
+    vid.volume = 1.0;
+    await vid.play();
+    overlayNotice.textContent = '소리 켜짐! (ESC 또는 닫기로 종료)';
   });
 
-  // 닫기
   closeOverlay.addEventListener('click', ()=> {
     try{ vid.pause(); vid.currentTime = 0; }catch(e){}
     if (document.fullscreenElement) document.exitFullscreen();
@@ -215,15 +179,13 @@
     overlay.setAttribute('aria-hidden','true');
   });
 
-  // ESC로 닫기
-  document.addEventListener('keydown', (e)=> {
-    if (e.key === 'Escape' && overlay.getAttribute('aria-hidden') === 'false') {
+  document.addEventListener('keydown',(e)=>{
+    if(e.key==='Escape' && overlay.getAttribute('aria-hidden')==='false'){
       closeOverlay.click();
     }
   });
 
-  // 시작 안내: 페이지 로드 직후 자동으로 챌린지 시작 (원하면 바꿀 수 있음)
-  // 여기선 사용자가 바로 누를 수 있게 시작 상태로 둠.
+  // 페이지 들어가면 바로 카운트다운 시작
   startChallenge();
 </script>
 </body>
